@@ -81,7 +81,7 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
 
     if (mounted) {
       log.logInfo('Navigating out: LoaderView -> Bookcase');
-      context.pushReplacement(MyHomePage(title: 'GetFit') as Route<Object?>);
+      context.pushReplacement(const MyHomePage(title: 'GetFit'));
     }
   }
 

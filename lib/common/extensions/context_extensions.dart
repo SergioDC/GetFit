@@ -5,19 +5,30 @@ extension ContextNavigatorExtensions on BuildContext {
     Navigator.of(this).pop(result);
   }
 
-  Future<T?> push<T extends Object?>(Route<T> route) {
-    return Navigator.of(this).push(route);
+  MaterialPageRoute<T> makeRouteTo<T extends Object?>(Widget widget) {
+    return MaterialPageRoute(builder: (BuildContext context) => widget);
+  }
+
+  Future<T?> push<T extends Object?>(Widget route) {
+    return Navigator.of(this).push(makeRouteTo<T>(route));
   }
 
   Future<T?> pushReplacement<T extends Object?, TO extends Object?>(
-      Route<T> newRoute,
-      {TO? result}) {
-    return Navigator.of(this).pushReplacement(newRoute, result: result);
+    Widget newRoute, {
+    TO? result,
+  }) {
+    return Navigator.of(
+      this,
+    ).pushReplacement(makeRouteTo<T>(newRoute), result: result);
   }
 
   Future<T?> pushAndRemoveUntil<T extends Object?>(
-      Route<T> newRoute, bool Function(Route<dynamic>) predicate) {
-    return Navigator.of(this).pushAndRemoveUntil(newRoute, predicate);
+    Widget newRoute,
+    bool Function(Route<dynamic>) predicate,
+  ) {
+    return Navigator.of(
+      this,
+    ).pushAndRemoveUntil(makeRouteTo<T>(newRoute), predicate);
   }
 }
 
