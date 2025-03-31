@@ -18,7 +18,10 @@ class SettingsRepository {
 
   Future<void> saveSettings(Settings settings) async {
     log.logInfo('Saving settings to box.');
-    Data.settingsBox.put(settings); // Saves or updates the settings
+    // Saves or updates the settings
+    await Data.store!.writeTxn(() async {
+      Data.settingsBox.put(settings);
+    });
   }
 
   Future<Settings> loadSettings() async {

@@ -8,6 +8,7 @@ import 'common/config/configuration.dart';
 import 'common/data/data.dart';
 import 'common/data/data_provider.dart';
 import 'common/data/service_locator.dart';
+import 'features/loader/loader.view.dart';
 import 'features/settings/settings.viewmodel.dart';
 
 void main() async {
@@ -17,15 +18,11 @@ void main() async {
   debugPrint('Initializing ServiceLocator');
   setupServiceLocator();
   debugPrint('Running App with data context');
-  runApp(const DataProvider(
-    child: GetFit(),
-  ));
+  runApp(const DataProvider(child: GetFit()));
 }
 
 class GetFit extends StatelessWidget {
-  const GetFit({
-    super.key,
-  });
+  const GetFit({super.key});
 
   // This widget is the root of your application.
   @override
@@ -35,8 +32,9 @@ class GetFit extends StatelessWidget {
 
     return ScreenUtilInit(
       designSize: Configuration.deviceViewportSize,
-      builder: (_, __) => Consumer<SettingsViewModel>(
-                builder: (_, settingsViewModel, __) {
+      builder:
+          (_, __) => Consumer<SettingsViewModel>(
+            builder: (_, settingsViewModel, __) {
               var appTheme = AppTheme();
               return MaterialApp(
                 scrollBehavior: const MaterialScrollBehavior().copyWith(
@@ -49,15 +47,16 @@ class GetFit extends StatelessWidget {
                 ),
                 debugShowCheckedModeBanner: false,
                 title: 'GetFit',
-                themeMode: settingsViewModel.settings.isDarkTheme
-                    ? ThemeMode.dark
-                    : ThemeMode.light,
+                themeMode:
+                    settingsViewModel.settings.isDarkTheme
+                        ? ThemeMode.dark
+                        : ThemeMode.light,
                 theme: appTheme.light,
                 darkTheme: appTheme.dark,
-                home: const MyHomePage(title: 'GetFit'),
+                home: LoaderView(),
               );
-            })
-          ,
+            },
+          ),
     );
   }
 }

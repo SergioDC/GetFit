@@ -9,12 +9,12 @@ import '../../features/settings/settings.dart';
 import '../constants/urls.dart';
 
 sealed class Data {
-  static Isar? _store;
+  static Isar? store;
 
   // static Box<Novel> get novelBox => _store!.box<Novel>();
   // static Box<Library> get libraryBox => _store!.box<Library>();
   // static Box<Filters> get listFiltersBox => _store!.box<Filters>();
-  static IsarCollection<Settings> get settingsBox => _store!.settings;
+  static IsarCollection<Settings> get settingsBox => store!.settings;
 
   static Directory? directory;
 
@@ -29,8 +29,8 @@ sealed class Data {
   }
 
   static Future<void> create({bool resetData = false}) async {
-    if (_store != null && _store!.isOpen) {
-      _store!.close();
+    if (store != null && store!.isOpen) {
+      store!.close();
     }
 
     await _initializeDatabase();
@@ -43,7 +43,7 @@ sealed class Data {
       await _deleteDatabase();
     }
     debugPrint('Opening data storage');
-    _store = await Isar.open(
+    store = await Isar.open(
       [SettingsSchema],
       name: 'getfit',
       directory: directory!.path,

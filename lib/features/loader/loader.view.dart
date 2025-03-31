@@ -11,6 +11,7 @@ import '../../common/data/change_notifier_custom.dart';
 import '../../common/style/background_cover.dart';
 import '../../common/widgets/bordered_text.dart';
 import '../../common/widgets/loading_placeholder.dart';
+import '../../main.dart';
 import '../log/log.service.dart';
 import '../settings/settings.viewmodel.dart';
 import 'loader.view.anim.dart';
@@ -79,8 +80,8 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
     await loaderViewAnim.controllerEnd.forward();
 
     if (mounted) {
-      // log.logInfo('Navigating out: LoaderView -> Bookcase');
-      // context.pushReplacement(BookcaseView.route());
+      log.logInfo('Navigating out: LoaderView -> Bookcase');
+      context.pushReplacement(MyHomePage(title: 'GetFit') as Route<Object?>);
     }
   }
 
@@ -93,84 +94,82 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Consumer2<LoaderViewModel, SettingsViewModel>(
-        builder: (_, loaderViewModel, settingsViewModel, __) {
-      if (loaderViewModel.state == NotifierState.error) {
-        log.logError(
-          'LoaderViewModel has met an error.',
-          Exception(loaderViewModel.error),
-        );
+      builder: (_, loaderViewModel, settingsViewModel, __) {
+        if (loaderViewModel.state == NotifierState.error) {
+          log.logError(
+            'LoaderViewModel has met an error.',
+            Exception(loaderViewModel.error),
+          );
+          return Scaffold(body: Center(child: Text(loaderViewModel.error)));
+        }
+
+        // Determine which animation is active
+        double currentHeightFactor;
+        if (loaderViewAnim.controllerEnd.isAnimating ||
+            loaderViewAnim.controllerEnd.isCompleted) {
+          currentHeightFactor = loaderViewAnim.animationEnd.value;
+        } else {
+          currentHeightFactor = loaderViewAnim.animationStart.value;
+        }
+
         return Scaffold(
-          body: Center(child: Text(loaderViewModel.error)),
-        );
-      }
-
-      // Determine which animation is active
-      double currentHeightFactor;
-      if (loaderViewAnim.controllerEnd.isAnimating ||
-          loaderViewAnim.controllerEnd.isCompleted) {
-        currentHeightFactor = loaderViewAnim.animationEnd.value;
-      } else {
-        currentHeightFactor = loaderViewAnim.animationStart.value;
-      }
-
-      return Scaffold(
-        body: Stack(
-          children: [
-            // Grayscale Background Image
-            const ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                Colors.black54,
-                BlendMode.hardLight,
+          body: Stack(
+            children: [
+              // Grayscale Background Image
+              const ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.black54,
+                  BlendMode.hardLight,
+                ),
+                child: BackgroundCover(),
               ),
-              child: BackgroundCover(),
-            ),
-            // Color Image Filling from Bottom
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: context.color.primary,
-                        width: 1.sp,
+              // Color Image Filling from Bottom
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: context.color.primary,
+                          width: 1.sp,
+                        ),
+                      ),
+                    ),
+                    child: ClipRect(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        heightFactor: currentHeightFactor,
+                        child: const BackgroundCover(),
                       ),
                     ),
                   ),
-                  child: ClipRect(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      heightFactor: currentHeightFactor,
-                      child: const BackgroundCover(),
+                ),
+              ),
+              //Optional: Overlay a semi-transparent layer
+              Positioned.fill(
+                child: Container(color: Colors.black.withValues(alpha: 0.1)),
+              ),
+              // Loading Indicator or Error Message
+              const LoadingPlaceholder(),
+              if (settingsViewModel.versionLabel != null)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: BorderedText(
+                    strokeColor: context.color.onPrimary,
+                    strokeWidth: 1.spMax,
+                    child: Text(
+                      settingsViewModel.versionLabel!,
+                      style: context.text.labelMedium!.copyWith(
+                        color: context.color.primary,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            //Optional: Overlay a semi-transparent layer
-            Positioned.fill(
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.1),
-              ),
-            ),
-            // Loading Indicator or Error Message
-            const LoadingPlaceholder(),
-            if (settingsViewModel.versionLabel != null)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: BorderedText(
-                  strokeColor: context.color.onPrimary,
-                  strokeWidth: 1.spMax,
-                  child: Text(
-                    settingsViewModel.versionLabel!,
-                    style: context.text.labelMedium!
-                        .copyWith(color: context.color.primary),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
   }
 }
