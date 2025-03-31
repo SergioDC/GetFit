@@ -1,36 +1,63 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:getfit/common/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'common/config/configuration.dart';
+import 'common/data/data.dart';
+import 'common/data/data_provider.dart';
+import 'common/data/service_locator.dart';
+import 'features/settings/settings.viewmodel.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  debugPrint('Initializing Database');
+  await Data.create(resetData: Configuration.devDeleteAllDataAtStart);
+  debugPrint('Initializing ServiceLocator');
+  setupServiceLocator();
+  debugPrint('Running App with data context');
+  runApp(const DataProvider(
+    child: GetFit(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GetFit extends StatelessWidget {
+  const GetFit({
+    super.key,
+  });
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    debugPrint('Building MaterialApp');
+    debugPrint('Home route: LoaderView');
+
+    return ScreenUtilInit(
+      designSize: Configuration.deviceViewportSize,
+      builder: (_, __) => Consumer<SettingsViewModel>(
+                builder: (_, settingsViewModel, __) {
+              var appTheme = AppTheme();
+              return MaterialApp(
+                scrollBehavior: const MaterialScrollBehavior().copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.mouse,
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.stylus,
+                    PointerDeviceKind.unknown,
+                  },
+                ),
+                debugShowCheckedModeBanner: false,
+                title: 'GetFit',
+                themeMode: settingsViewModel.settings.isDarkTheme
+                    ? ThemeMode.dark
+                    : ThemeMode.light,
+                theme: appTheme.light,
+                darkTheme: appTheme.dark,
+                home: const MyHomePage(title: 'GetFit'),
+              );
+            })
+          ,
     );
   }
 }

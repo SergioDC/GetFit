@@ -1,4 +1,4 @@
-package com.example.getfit
+package com.serjua.app.getfit.dev
 
 import io.flutter.embedding.android.FlutterActivity
 
