@@ -30,7 +30,7 @@ sealed class Data {
 
   static Future<void> create({bool resetData = false}) async {
     if (store != null && store!.isOpen) {
-      store!.close();
+      await store!.close();
     }
 
     await _initializeDatabase();
