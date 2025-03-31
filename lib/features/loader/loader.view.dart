@@ -80,7 +80,7 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
     await loaderViewAnim.controllerEnd.forward();
 
     if (mounted) {
-      log.logInfo('Navigating out: LoaderView -> Bookcase');
+      log.logInfo('Navigating out: LoaderView -> LoginView');
       context.pushReplacement(const MyHomePage(title: 'GetFit'));
     }
   }

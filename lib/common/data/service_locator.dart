@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../features/loader/loader.viewmodel.dart';
 import '../../features/log/log.service.dart';
+import '../../features/login/login.viewmodel.dart';
 import '../../features/settings/settings.repository.dart';
 import '../../features/settings/settings.viewmodel.dart';
 import '../constants/urls.dart';
@@ -15,9 +16,7 @@ void setupServiceLocator() {
   // Register LoggingService as a singleton
   debugPrint('Adding LogService to service locator');
   var logService = LogService();
-  getIt.registerSingleton<LogService>(
-    logService,
-  );
+  getIt.registerSingleton<LogService>(logService);
 
   final networkService = NetworkService(baseUrl: Urls.baseUrl);
   // final libraryRepository = LibraryRepository();
@@ -28,9 +27,7 @@ void setupServiceLocator() {
   getIt.registerSingleton<SettingsViewModel>(
     SettingsViewModel(settingsRepository: SettingsRepository()),
   );
-  // getIt.registerSingleton<BookcaseViewModel>(
-  //   BookcaseViewModel(),
-  // );
+  getIt.registerSingleton<LoginViewModel>(LoginViewModel());
   // getIt.registerSingleton<LibraryViewModel>(
   //   LibraryViewModel(
   //     libraryRepository: libraryRepository,
@@ -45,10 +42,10 @@ void setupServiceLocator() {
   // );
   getIt.registerSingleton<LoaderViewModel>(
     LoaderViewModel(
-        // libraryRepository: libraryRepository,
-        // novelRepository: novelRepository,
-        // filtersRepitory: filtersRepository,
-        ),
+      // libraryRepository: libraryRepository,
+      // novelRepository: novelRepository,
+      // filtersRepitory: filtersRepository,
+    ),
   );
   // getIt.registerSingleton<FiltersViewModel>(
   //   FiltersViewModel(filtersRepository: filtersRepository),

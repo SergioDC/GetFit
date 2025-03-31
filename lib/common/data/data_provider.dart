@@ -3,14 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../../features/loader/loader.viewmodel.dart';
 import '../../features/log/log.service.dart';
+import '../../features/login/login.viewmodel.dart';
 import '../../features/settings/settings.viewmodel.dart';
 import 'service_locator.dart';
 
 class DataProvider extends StatelessWidget {
-  const DataProvider({
-    super.key,
-    this.child,
-  });
+  const DataProvider({super.key, this.child});
 
   final Widget? child;
 
@@ -20,12 +18,10 @@ class DataProvider extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => getIt<LogService>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => getIt<SettingsViewModel>(),
-        ),
+        ChangeNotifierProvider(create: (_) => getIt<LogService>()),
+        ChangeNotifierProvider(create: (_) => getIt<SettingsViewModel>()),
+        ChangeNotifierProvider(create: (_) => getIt<LoaderViewModel>()),
+        ChangeNotifierProvider(create: (_) => getIt<LoginViewModel>()),
         // ChangeNotifierProvider(
         //   create: (_) => getIt<BookcaseViewModel>(),
         // ),
@@ -38,9 +34,7 @@ class DataProvider extends StatelessWidget {
         // ChangeNotifierProvider(
         //   create: (_) => getIt<NovelViewModel>(),
         // ),
-        ChangeNotifierProvider(
-          create: (_) => getIt<LoaderViewModel>(),
-        ),
+
         // ChangeNotifierProvider(
         //   create: (_) => getIt<FiltersViewModel>(),
         // ),
