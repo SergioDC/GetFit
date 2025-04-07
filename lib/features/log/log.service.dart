@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../common/config/configuration.dart';
 import 'log.dart';
 
-enum LogLevel { data, info, warning, error, none }
+enum LogLevel { verbose, data, info, warning, error, none }
 
 class LogService with ChangeNotifier {
   File? _logFile;
@@ -28,6 +28,7 @@ class LogService with ChangeNotifier {
   static final LogService _instance = LogService._internal();
   static Color getColor(LogLevel level) {
     switch (level) {
+      case LogLevel.verbose:
       case LogLevel.data:
         return Colors.grey;
       case LogLevel.info:
@@ -75,6 +76,10 @@ class LogService with ChangeNotifier {
     logError('logError test.', Exception('Test exception'));
 
     notifyListeners();
+  }
+
+  void logVerbose(String message) {
+    _writeLog(level: LogLevel.verbose, message: message);
   }
 
   void logData(String message, Object? data) {

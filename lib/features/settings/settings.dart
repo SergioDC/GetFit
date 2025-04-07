@@ -25,7 +25,7 @@ class Settings {
     this.id = 0,
     this.logMaxLinesThreshold = 3500,
     this.logMaxLinesRecovery = 500,
-    this.logLevel = LogLevel.data,
+    this.logLevel = LogLevel.verbose,
     this.devEnableDeveloperOptions = true,
     this.imgBackground = Configuration.defaultBackground,
     this.isDarkTheme = false,

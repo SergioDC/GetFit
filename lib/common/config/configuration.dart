@@ -5,8 +5,10 @@ class Configuration {
   // Device
   static const double deviceViewportWidth = 412;
   static const double deviceViewportHeight = 906;
-  static const Size deviceViewportSize =
-      Size(deviceViewportWidth, deviceViewportHeight);
+  static const Size deviceViewportSize = Size(
+    deviceViewportWidth,
+    deviceViewportHeight,
+  );
 
   // Logs
   static const String logFolderName = 'logs';
@@ -57,7 +59,7 @@ class Configuration {
     'assets/backgrounds/library09.png',
     'assets/backgrounds/library10.png',
   ];
-    
+
   // Font
   static const String defaultFont = 'Roboto';
   static const int defaultFontSize = 20;

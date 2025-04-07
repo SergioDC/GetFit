@@ -134,7 +134,7 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
         } else {
           currentHeightFactor = loaderViewAnim.animationStart.value;
         }
-        log.logData('Current animation height factor', currentHeightFactor);
+        log.logVerbose('Current animation height factor $currentHeightFactor');
 
         // Build the layered UI for the loader, providing visual feedback during the app's initialization phase.
         return Scaffold(
