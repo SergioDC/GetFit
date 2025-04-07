@@ -8,5 +8,11 @@ class LoginViewModel extends ChangeNotifierCustom {
   final login = Login();
   final log = GetIt.instance<LogService>();
 
-  LoginViewModel() {}
+  LoginViewModel();
+
+  void initialize() async {
+    setInitializeState();
+    await Future.delayed(Duration(seconds: 3));
+    setReadyState();
+  }
 }

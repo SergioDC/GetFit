@@ -51,6 +51,8 @@ class _LoginViewState extends State<LoginView> {
       'SettingsViewModel obtained',
       settingsViewModel,
     );
+
+    loginViewModel.initialize();
   }
 
   @override

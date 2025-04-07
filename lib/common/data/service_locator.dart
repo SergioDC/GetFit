@@ -6,8 +6,8 @@ import '../../features/log/log.service.dart';
 import '../../features/login/login.viewmodel.dart';
 import '../../features/settings/settings.repository.dart';
 import '../../features/settings/settings.viewmodel.dart';
-import '../constants/urls.dart';
-import '../services/network_service.dart';
+//import '../constants/urls.dart';
+//import '../services/network_service.dart';
 
 // Initialize
 final GetIt getIt = GetIt.instance;
@@ -18,7 +18,7 @@ void setupServiceLocator() {
   var logService = LogService();
   getIt.registerSingleton<LogService>(logService);
 
-  final networkService = NetworkService(baseUrl: Urls.baseUrl);
+  //final networkService = NetworkService(baseUrl: Urls.baseUrl);
   // final libraryRepository = LibraryRepository();
   // final novelRepository = NovelRepository();
   // final filtersRepository = FiltersRepository();

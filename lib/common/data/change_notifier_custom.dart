@@ -8,27 +8,39 @@ class ChangeNotifierCustom extends ChangeNotifier {
   ChangeNotifierCustom();
 
   NotifierState state = NotifierState.initilializing;
-
-  bool _isLoading = false;
   String _errorMessage = '';
-
   String get error => _errorMessage;
 
-  void setError(String error) {
-    _errorMessage = error;
-    updateState();
+  void setInitializeState() {
+    _errorMessage = '';
+    state = NotifierState.initilializing;
+    _updateState(loading: true);
   }
 
-  void updateState({bool loading = false}) {
-    _isLoading = loading;
+  void setErrorState(String errorMessage) {
+    _errorMessage = errorMessage;
+    state = NotifierState.error;
+    _updateState(loading: false);
+  }
 
-    if (_isLoading) {
-      _errorMessage = '';
-      state = NotifierState.loading;
-    } else if (_errorMessage.isNotEmpty) {
-      state = NotifierState.error;
-    } else {
-      state = NotifierState.ready;
+  void setLoadingState() {
+    _errorMessage = '';
+    state = NotifierState.loading;
+    _updateState(loading: true);
+  }
+
+  void setReadyState() {
+    _errorMessage = '';
+    state = NotifierState.ready;
+    _updateState(loading: false);
+  }
+
+  void _updateState({required bool loading}) {
+    switch (state) {
+      case NotifierState.initilializing:
+      case NotifierState.loading:
+      case NotifierState.error:
+      case NotifierState.ready:
     }
 
     notifyListeners();
@@ -65,8 +77,11 @@ class ChangeNotifierCustom extends ChangeNotifier {
     completer.future.catchError((_) {});
     Future<void>.delayed(Duration.zero).then((_) {
       if (!completer.isCompleted && !hasListeners) {
-        completer.completeError(Exception(
-            'ChangeNotifierCustom was disposed before reaching the desired state [${desiredState.name}].'));
+        completer.completeError(
+          Exception(
+            'ChangeNotifierCustom was disposed before reaching the desired state [${desiredState.name}].',
+          ),
+        );
       }
     });
 

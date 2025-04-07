@@ -25,19 +25,16 @@ class SettingsViewModel extends ChangeNotifierCustom {
   }
 
   Future<void> _loadSettings() async {
-    updateState(loading: true);
+    setLoadingState();
 
     try {
       log.logInfo('Loading settings from repository.');
       settings = await settingsRepository.loadSettings();
     } catch (e) {
-      log.logError(
-        'Failed to load settings data.',
-        Exception(e),
-      );
-      setError('Failed to load settings data: $e');
+      log.logError('Failed to load settings data.', Exception(e));
+      setErrorState('Failed to load settings data: $e');
     } finally {
-      updateState();
+      setReadyState();
     }
   }
 
@@ -61,15 +58,15 @@ class SettingsViewModel extends ChangeNotifierCustom {
     _s.fontFamily = fontFamily ?? _s.fontFamily;
     _s.fontSize = fontSize ?? _s.fontSize;
 
-    updateState();
+    setLoadingState();
 
     try {
       await settingsRepository.saveSettings(settings);
       log.logInfo('Settings updated successfully.');
+      setReadyState();
     } catch (e) {
       log.logError('Failed to save settings.', Exception(e));
-      setError('Failed to save settings: $e');
-      updateState();
+      setErrorState('Failed to save settings: $e');
     }
   }
 }

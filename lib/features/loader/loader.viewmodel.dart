@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../common/data/change_notifier_custom.dart';
@@ -34,8 +33,8 @@ class LoaderViewModel extends ChangeNotifierCustom {
 
   // This asynchronous method initializes application data.
   // It updates the UI state to reflect loading progress and handles errors to maintain robust user feedback.
-  Future<void> initializeAppData(BuildContext context) async {
-    updateState(loading: true);
+  Future<void> initializeAppData() async {
+    setInitializeState();
 
     try {
       // The following commented code sections are placeholders for future repository access and data loading.
@@ -53,11 +52,11 @@ class LoaderViewModel extends ChangeNotifierCustom {
     } catch (e) {
       // Logging the error with context here is crucial for troubleshooting failures during data initialization.
       log.logError('Failed to intialize application data.', Exception(e));
-      setError('Failed to intialize application data: $e');
+      setErrorState('Failed to intialize application data: $e');
     } finally {
       // The state update in the finally block ensures that the UI is refreshed regardless of success or failure,
       // thus maintaining a consistent user experience.
-      updateState();
+      setReadyState();
     }
   }
 }

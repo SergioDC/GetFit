@@ -1,3 +1,3 @@
 class Login {
-  Login() {}
+  Login();
 }

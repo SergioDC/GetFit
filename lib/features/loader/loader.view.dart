@@ -83,7 +83,7 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
     log.logData('Acquired LoaderViewModel instance', loaderViewModel);
     // Log the initiation of data loading to capture the start of the critical loading phase.
     log.logInfo('Initializing application data.');
-    await loaderViewModel.initializeAppData(context);
+    await loaderViewModel.initializeAppData();
     log.logInfo('Application data is ready. Redirecting to main route.');
 
     // Ensure that the LoaderViewModel has reached a ready state before proceeding.
