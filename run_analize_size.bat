@@ -1,1 +1,1 @@
-fvm flutter build apk --analyze-size -t lib/main_debug.dart --target-platform android-arm64
+fvm flutter build apk --analyze-size -t lib/main.dart --target-platform android-arm64

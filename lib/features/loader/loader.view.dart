@@ -11,8 +11,8 @@ import '../../common/data/change_notifier_custom.dart';
 import '../../common/style/background_cover.dart';
 import '../../common/widgets/bordered_text.dart';
 import '../../common/widgets/loading_placeholder.dart';
-import '../../main.dart';
 import '../log/log.service.dart';
+import '../login/login.view.dart';
 import '../settings/settings.viewmodel.dart';
 import 'loader.view.anim.dart';
 import 'loader.viewmodel.dart';
@@ -81,7 +81,7 @@ class _LoaderState extends State<LoaderView> with TickerProviderStateMixin {
 
     if (mounted) {
       log.logInfo('Navigating out: LoaderView -> LoginView');
-      context.pushReplacement(const MyHomePage(title: 'GetFit'));
+      context.pushReplacement(const LoginView());
     }
   }
 
