@@ -23,10 +23,12 @@ void setupServiceLocator() {
   // final novelRepository = NovelRepository();
   // final filtersRepository = FiltersRepository();
 
-  debugPrint('Adding ViewModels to service locator');
+  logService.logInfo('Adding ViewModels to service locator');
+  logService.logInfo('Adding SettingsViewModel');
   getIt.registerSingleton<SettingsViewModel>(
     SettingsViewModel(settingsRepository: SettingsRepository()),
   );
+  logService.logInfo('Adding LoginViewModel');
   getIt.registerSingleton<LoginViewModel>(LoginViewModel());
   // getIt.registerSingleton<LibraryViewModel>(
   //   LibraryViewModel(
@@ -40,6 +42,7 @@ void setupServiceLocator() {
   //     novelRepository: novelRepository,
   //   ),
   // );
+  logService.logInfo('Adding LoaderViewModel');
   getIt.registerSingleton<LoaderViewModel>(
     LoaderViewModel(
       // libraryRepository: libraryRepository,

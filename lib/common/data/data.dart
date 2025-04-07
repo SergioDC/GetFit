@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../../features/log/log.service.dart';
 import '../../features/settings/settings.dart';
 import '../constants/urls.dart';
 
@@ -29,20 +30,24 @@ sealed class Data {
   }
 
   static Future<void> create({bool resetData = false}) async {
+    var log = GetIt.instance<LogService>();
     if (store != null && store!.isOpen) {
+      log.logInfo('The database is open. Closing it before continuing');
       await store!.close();
     }
 
+    log.logInfo('Initializing database');
     await _initializeDatabase();
     if (directory == null) {
-      debugPrint('Error. Could not initialize data directory.');
+      log.logInfo('Error. Could not initialize data directory.');
     }
 
-    debugPrint('Data directory: ${directory!.path}');
+    log.logData('Data directory', directory!.path);
     if (resetData) {
+      log.logInfo('Reset data flag is true. Resetting database');
       await _deleteDatabase();
     }
-    debugPrint('Opening data storage');
+    log.logInfo('Opening data storage');
     store = await Isar.open(
       [SettingsSchema],
       name: 'getfit',
@@ -56,8 +61,9 @@ sealed class Data {
   }
 
   static Future<void> _deleteDatabase() async {
-    debugPrint('Deleting app database from:');
-    debugPrint('[${directory!.path}]');
+    var log = GetIt.instance<LogService>();
+    log.logInfo('Deleting database');
+    log.logData('Deleting app database', directory!.path);
     if (await directory!.exists()) {
       await directory!.delete(recursive: true);
     }
