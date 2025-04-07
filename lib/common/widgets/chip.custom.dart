@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:getfit/common/extensions/context_extensions.dart';
+
+import '../extensions/context_extensions.dart';
 
 class ChipCustom extends StatelessWidget {
   const ChipCustom({
@@ -26,23 +27,21 @@ class ChipCustom extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: backColor,
-          border: Border.all(
-            color: frontColor,
-            width: 1.spMax,
-          ), // Border style
-          borderRadius:
-              BorderRadius.circular(16.spMax), // Optional for rounded edges
+          border: Border.all(color: frontColor, width: 1.spMax), // Border style
+          borderRadius: BorderRadius.circular(
+            16.spMax,
+          ), // Optional for rounded edges
         ),
-        padding:
-            REdgeInsets.symmetric(horizontal: 2), // Padding for inner spacing
+        padding: REdgeInsets.symmetric(
+          horizontal: 2,
+        ), // Padding for inner spacing
         child: FittedBox(
           child: Text(
             label,
             textAlign: TextAlign.center, // Center the text horizontally
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: frontColor),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall!.copyWith(color: frontColor),
           ),
         ),
       ),

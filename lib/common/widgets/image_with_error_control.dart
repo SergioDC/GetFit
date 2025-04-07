@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:getfit/common/extensions/image_extensions.dart';
 import 'package:uuid/v4.dart';
 
+import '../extensions/image_extensions.dart';
 import '../config/configuration.dart';
 
 Image getSecureImage({
@@ -11,10 +11,7 @@ Image getSecureImage({
   int? cacheHeight,
   int? cacheWidth,
 }) {
-  var noCoverImage = Image.asset(
-    Configuration.noCoverImage,
-    fit: BoxFit.cover,
-  );
+  var noCoverImage = Image.asset(Configuration.noCoverImage, fit: BoxFit.cover);
 
   if (url.isEmpty) {
     return noCoverImage;

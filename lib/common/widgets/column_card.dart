@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:getfit/common/extensions/context_extensions.dart';
 
+import '../extensions/context_extensions.dart';
 import '../config/configuration.dart';
 
 class ColumnCard extends StatelessWidget {
-  const ColumnCard({
-    super.key,
-    required this.children,
-  });
+  const ColumnCard({super.key, required this.children});
 
   final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context)
-          .colorScheme
-          .surfaceContainer
-          .withValues(alpha: Configuration.uiLowTransparency),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+      color: Theme.of(context).colorScheme.surfaceContainer.withValues(
+        alpha: Configuration.uiLowTransparency,
       ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

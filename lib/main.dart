@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:getfit/common/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
+import 'common/theme/app_theme.dart';
 import 'common/config/configuration.dart';
 import 'common/data/data.dart';
 import 'common/data/data_provider.dart';

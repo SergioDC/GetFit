@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:getfit/common/extensions/context_extensions.dart';
+
+import '../extensions/context_extensions.dart';
 
 class ImageCarouselModal extends StatefulWidget {
   final List<String> images;
@@ -44,10 +45,7 @@ class ImageCarouselModalState extends State<ImageCarouselModal> {
             children: [
               const Text(
                 'Select Background',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               IconButton(
                 icon: const Icon(Icons.close),

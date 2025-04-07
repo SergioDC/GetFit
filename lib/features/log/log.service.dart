@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mutex/mutex.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../../common/config/configuration.dart';
 import 'log.dart';
@@ -25,11 +25,9 @@ class LogService with ChangeNotifier {
     _initializeLogFile();
   }
 
-
   static final LogService _instance = LogService._internal();
   static Color getColor(LogLevel level) {
-    switch(level)
-    {
+    switch (level) {
       case LogLevel.data:
         return Colors.grey;
       case LogLevel.info:
@@ -48,9 +46,12 @@ class LogService with ChangeNotifier {
   }
 
   Future<void> _initializeLogFile() async {
-    final directory = Directory(p.join(
+    final directory = Directory(
+      p.join(
         (await getApplicationDocumentsDirectory()).path,
-        Configuration.logFolderName));
+        Configuration.logFolderName,
+      ),
+    );
     logPath = p.join(directory.path, Configuration.logFileName);
     _logFile = File(logPath);
     if (!await directory.exists()) {
@@ -110,11 +111,7 @@ class LogService with ChangeNotifier {
     }
 
     try {
-      var logEntry = Log(
-        level: level,
-        message: message,
-        object: object,
-      );
+      var logEntry = Log(level: level, message: message, object: object);
 
       logBuffer.add(logEntry);
       logCount++;
@@ -155,8 +152,9 @@ class LogService with ChangeNotifier {
           logList.add(log);
         } catch (e) {
           var log = Log(
-              level: LogLevel.warning,
-              message: 'Error loading log from file: [$e]->[$l]');
+            level: LogLevel.warning,
+            message: 'Error loading log from file: [$e]->[$l]',
+          );
           logList.add(log);
         }
       }
@@ -188,12 +186,15 @@ class LogService with ChangeNotifier {
         var prunedLines = logLines.sublist(linesRecoveryAmount);
 
         // Rewrite the file with pruned lines
-        await _logFile!
-            .writeAsString('${prunedLines.join('\n')}\n', mode: FileMode.write);
+        await _logFile!.writeAsString(
+          '${prunedLines.join('\n')}\n',
+          mode: FileMode.write,
+        );
         logCount -= linesRecoveryAmount;
         logLines = prunedLines;
         logInfo(
-            'Pruned $linesRecoveryAmount log lines. New log count: $logCount');
+          'Pruned $linesRecoveryAmount log lines. New log count: $logCount',
+        );
       }
     } catch (e) {
       debugPrint('Error pruning log file: $e');

@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../../common/data/change_notifier_custom.dart';
 import '../settings/settings.viewmodel.dart';
+import 'login.view.error.dart';
+import 'login.view.initializing.dart';
+import 'login.view.loading.dart';
+import 'login.view.ready.dart';
 import 'login.viewmodel.dart';
 
 class LoginView extends StatefulWidget {
@@ -19,11 +23,11 @@ class _LoginViewState extends State<LoginView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initializeApp();
+      initializeLogin();
     });
   }
 
-  void initializeApp() async {
+  void initializeLogin() async {
     var loginViewModel = GetIt.instance<LoginViewModel>();
     var settingsViewModel = GetIt.instance<SettingsViewModel>();
   }
@@ -36,16 +40,16 @@ class _LoginViewState extends State<LoginView> {
 
     return Consumer<LoginViewModel>(
       builder: (_, loginViewModel, __) {
-        if (loginViewModel.state == NotifierState.error) {
-          return const Placeholder();
+        switch (loginViewModel.state) {
+          case NotifierState.initilializing:
+            return LoginViewInitializing();
+          case NotifierState.error:
+            return LoginViewError();
+          case NotifierState.loading:
+            return LoginViewLoading();
+          case NotifierState.ready:
+            return LoginViewReady();
         }
-
-        if (loginViewModel.state == NotifierState.ready) {
-          return const Placeholder();
-        }
-
-        //Initializing
-        return const Placeholder();
       },
     );
   }
